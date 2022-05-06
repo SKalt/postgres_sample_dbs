@@ -2,12 +2,11 @@
 ### USAGE: download/sakila.sh [-h|--help]
 ### clone just the `licenses` and `sample` dirs  to tmp/yugabyte-db
 this_dir="${BASH_SOURCE[0]%/*}"
-# shellcheck source=./common.sh
-. "$this_dir/common.sh"
-
 repo_root="$(cd "$this_dir/../.." && pwd)"
 remote="https://github.com/yugabyte/yugabyte-db.git"
 target_dir="$repo_root/tmp/yugabyte-db"
+# shellcheck source=../common.sh
+. "$this_dir/../common.sh"
 
 main() {
   set -euo pipefail

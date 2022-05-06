@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 this_dir="${BASH_SOURCE[0]%/*}"
-
-repo_root="$(cd "$this_dir/../.." && pwd)"
+repo_root="$(cd "$this_dir/.." && pwd)"
 log_file=$repo_root/tmp/sample_db_download.log
 
 should_use_color() {

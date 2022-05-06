@@ -3,12 +3,11 @@
 ### clone jOOQ/sakila.git to tmp/
 
 this_dir="${BASH_SOURCE[0]%/*}"
-# shellcheck source=./common.sh
-. "$this_dir/common.sh"
-
 repo_root="$(cd "$this_dir/../.." && pwd)"
 remote="https://github.com/jOOQ/sakila.git"
 target_dir="$repo_root/tmp/sakila"
+# shellcheck source=../common.sh
+. "$this_dir/../common.sh"
 
 main() {
   set -euo pipefail
@@ -18,7 +17,11 @@ main() {
     *) fail "unexpected argument: $1" ;;
     esac
   done
-  git clone "$remote" "$target_dir"
+  if test -d "$target_dir" && (cd "$target_dir" && is_git_dir); then
+    (cd "$target_dir" && git pull origin main)
+  else
+    git clone "$remote" "$target_dir"
+  fi
 }
 
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then main "$@"; fi
