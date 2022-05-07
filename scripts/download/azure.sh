@@ -3,6 +3,7 @@ this_dir="${BASH_SOURCE[0]%/*}"
 repo_root="$(cd "$this_dir/../.." && pwd)"
 remote="https://github.com/Azure-Samples/postgresql-samples-databases.git"
 target_dir="$repo_root/tmp/azure-postgresql-samples-databases"
+log_file="/tmp/azure_pg_sample_dbs_lownload.log"
 # shellcheck source=../common.sh
 . "$this_dir/../common.sh"
 
@@ -17,9 +18,11 @@ main() {
   done
 
   if test -d "$target_dir" && (cd "$target_dir" && is_git_dir); then
-    (cd "$target_dir" && git pull origin main)
+    log_info "pulling $remote"
+    (cd "$target_dir" && git pull origin main) 2>&1 | log_debug
   else
-    git clone "$remote" "$target_dir"
+    log_info "cloning $remote"
+    git clone "$remote" "$target_dir" 2>&1 | log_debug
   fi
 }
 

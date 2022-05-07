@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 ### USAGE: download/sakila.sh [-h|--help]
-### clone jOOQ/sakila.git to tmp/
+### clone jOOQ/sakila.git to ./tmp/
 
 this_dir="${BASH_SOURCE[0]%/*}"
 repo_root="$(cd "$this_dir/../.." && pwd)"
 remote="https://github.com/jOOQ/sakila.git"
 target_dir="$repo_root/tmp/sakila"
+log_file=/tmp/sakila_download.log
 # shellcheck source=../common.sh
 . "$this_dir/../common.sh"
 
@@ -18,9 +19,11 @@ main() {
     esac
   done
   if test -d "$target_dir" && (cd "$target_dir" && is_git_dir); then
-    (cd "$target_dir" && git pull origin main)
+    log_info "pulling $remote"
+    (cd "$target_dir" && git pull origin main) 2>&1 | log_debug
   else
-    git clone "$remote" "$target_dir"
+    log_info "cloning $remote"
+    git clone "$remote" "$target_dir" 2>&1 | log_debug
   fi
 }
 

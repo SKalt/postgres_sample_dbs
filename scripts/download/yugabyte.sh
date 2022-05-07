@@ -5,6 +5,7 @@ this_dir="${BASH_SOURCE[0]%/*}"
 repo_root="$(cd "$this_dir/../.." && pwd)"
 remote="https://github.com/yugabyte/yugabyte-db.git"
 target_dir="$repo_root/tmp/yugabyte-db"
+log_file=/tmp/yugabyte_sample_dbs_download.sh
 # shellcheck source=../common.sh
 . "$this_dir/../common.sh"
 

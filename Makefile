@@ -10,6 +10,12 @@ sakila-download: ./tmp/sakila/README.md
 	./scripts/download/sakila.sh
 	./scripts/download/sakila.sh
 
+sakila: \
+	./tmp/sakila/README.md \
+	./scripts/common.sh \
+	./scripts/transform/sakila.sh
+	./scripts/transform/sakila.sh
+
 yugabyte-download: ./tmp/yugabyte-db/sample/users.sql
 ./tmp/yugabyte-db/sample/users.sql: \
 	./scripts/common.sh \
