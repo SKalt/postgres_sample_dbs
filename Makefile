@@ -4,13 +4,21 @@ azure-download: ./tmp/azure-postgresql-sample-databases/README.md
 	./scripts/download/azure.sh
 	@./scripts/download/azure.sh
 
+polls: ./sample_dbs/polls/README.md
+./sample_dbs/polls/README.md: \
+	./tmp/azure-postgresql-samples-databases/polls-database-schema/readme.md \
+	./scripts/common.sh \
+	./scripts/transform/polls.sh
+	@./scripts/transform/polls.sh
+
 sakila-download: ./tmp/sakila/README.md
 ./tmp/sakila/README.md: \
 	./scripts/common.sh \
 	./scripts/download/sakila.sh
 	@./scripts/download/sakila.sh
 
-sakila: \
+sakila: ./sample_dbs/sakila/README.md
+./sample_dbs/sakila/README.md: \
 	./tmp/sakila/README.md \
 	./scripts/common.sh \
 	./scripts/transform/sakila.sh
