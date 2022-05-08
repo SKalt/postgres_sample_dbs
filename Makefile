@@ -37,6 +37,13 @@ yugabyte-download: ./tmp/yugabyte-db/sample/users.sql
 	./scripts/download/yugabyte.sh
 	@./scripts/download/yugabyte.sh
 
+airflow: ./sample_dbs/airflow/ddl/00_schema.sql
+./sample_dbs/airflow/ddl/00_schema.sql: \
+	./tmp/yugabyte-db/sample/airflowybrepo.sql \
+	./scripts/common.sh \
+	./scripts/transform/airflow.sh
+	@./scripts/transform/airflow.sh
+
 ALL_SH_FILES=$(shell find -type f -name '*.sh')
 lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
