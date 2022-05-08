@@ -1,0 +1,17 @@
+version: '3'
+services:
+  pg: &base
+    # the base postgres container; should be latest LTS.
+    image: docker.io/postgres:14-alpine
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGUSER=postgres
+    ports:
+      - 5432:5432
+    healthcheck:
+      timeout: 10s
+      interval: 1s
+      test: [CMD, pg_isready, -U, postgres, -h, localhost]
+      retries: 10
+    volumes:
+      - ./:/workspace # should only be used for read-only operations

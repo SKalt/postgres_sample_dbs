@@ -11,6 +11,13 @@ polls: ./sample_dbs/polls/README.md
 	./scripts/transform/polls.sh
 	@./scripts/transform/polls.sh
 
+adventureworks: ./sample_dbs/adventureworks/README.md
+./sample_dbs/adventureworks/README.md: \
+	./tmp/azure-postgresql-samples-databases/postgresql-adventureworks/README.md \
+	./scripts/common.sh \
+	./scripts/transform/adventureworks.sh
+	@./scripts/transform/adventureworks.sh
+
 sakila-download: ./tmp/sakila/README.md
 ./tmp/sakila/README.md: \
 	./scripts/common.sh \

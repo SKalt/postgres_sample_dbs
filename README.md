@@ -9,10 +9,15 @@ Each checked-in sample db in the ./sample_dbs directory
 ```
 ${db_name}
 ├── ddl/*.sql
-├── dml/*.sql # optional
+├── dml/*.sql{,.gz} # optional
 ├── README*   # optional
 └── LICENSE*
 ```
+
+Note that files
+
+- some dml files >5MB are gzipped (the files matching `dml/*.sql.gz`).
+- After decompressing any data-files, all files in the sample directory should be able to run in asciibetical order: `${db_name}/**/*.sql`.
 
 ## Licensing
 
