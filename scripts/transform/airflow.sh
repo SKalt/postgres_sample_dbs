@@ -7,6 +7,8 @@ source_dir="$repo_root/tmp/yugabyte-db"
 target_dir="$repo_root/sample_dbs/airflow"
 
 main() {
+  set -euo pipefail
+
   while [ -n "${1:-}" ]; do
     case "$1" in
     -h | --help) usage && exit 0 ;;
