@@ -51,6 +51,13 @@ chinook: ./sample_dbs/chinook/README.md
 	./scripts/transform/chinook.sh
 	@./scripts/transform/chinook.sh
 
+clubdata: ./sample_dbs/clubdata/README.md
+./sample_dbs/clubdata/README.md: \
+	./tmp/yugabyte-db/sample/clubdata* \
+	./scripts/common.sh \
+	./scripts/transform/clubdata.sh
+	@./scripts/transform/clubdata.sh
+
 ALL_SH_FILES=$(shell find -type f -name '*.sh')
 lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
