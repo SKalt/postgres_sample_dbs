@@ -44,6 +44,13 @@ airflow: ./sample_dbs/airflow/ddl/00_schema.sql
 	./scripts/transform/airflow.sh
 	@./scripts/transform/airflow.sh
 
+chinook: ./sample_dbs/chinook/README.md
+./sample_dbs/chinook/README.md: \
+	./tmp/yugabyte-db/sample/chinook* \
+	./scripts/common.sh \
+	./scripts/transform/chinook.sh
+	@./scripts/transform/chinook.sh
+
 ALL_SH_FILES=$(shell find -type f -name '*.sh')
 lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
