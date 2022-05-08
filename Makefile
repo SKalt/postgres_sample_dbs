@@ -65,6 +65,16 @@ northwind: ./sample_dbs/northwind/README.md
 	./scripts/transform/northwind.sh
 	@./scripts/transform/northwind.sh
 
+retail_analytics: ./sample_dbs/retail_analytics/README.md
+./sample_dbs/retail_analytics/README.md: \
+	./tmp/yugabyte-db/sample/schema.sql \
+	./tmp/yugabyte-db/sample/users.sql \
+	./tmp/yugabyte-db/sample/orders.sql \
+	./tmp/yugabyte-db/sample/reviews.sql \
+	./scripts/common.sh \
+	./scripts/transform/retail_analytics.sh
+	@./scripts/transform/retail_analytics.sh
+
 ALL_SH_FILES=$(shell find -type f -name '*.sh')
 lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
