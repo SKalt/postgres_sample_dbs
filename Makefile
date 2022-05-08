@@ -75,6 +75,13 @@ retail_analytics: ./sample_dbs/retail_analytics/README.md
 	./scripts/transform/retail_analytics.sh
 	@./scripts/transform/retail_analytics.sh
 
+covid: ./sample_dbs/covid/README.md
+./sample_dbs/covid/README.md: \
+	./tmp/yugabyte-db/sample/covid-data-case-study/covid-data-case-study.zip \
+	./scripts/common.sh \
+	./scripts/transform/covid.sh
+	@./scripts/transform/covid.sh
+
 ALL_SH_FILES=$(shell find -type f -name '*.sh')
 lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
