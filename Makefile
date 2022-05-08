@@ -58,6 +58,13 @@ clubdata: ./sample_dbs/clubdata/README.md
 	./scripts/transform/clubdata.sh
 	@./scripts/transform/clubdata.sh
 
+northwind: ./sample_dbs/northwind/README.md
+./sample_dbs/northwind/README.md: \
+	./tmp/yugabyte-db/sample/northwind* \
+	./scripts/common.sh \
+	./scripts/transform/northwind.sh
+	@./scripts/transform/northwind.sh
+
 ALL_SH_FILES=$(shell find -type f -name '*.sh')
 lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
