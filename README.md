@@ -2,6 +2,10 @@
 
 A collection of postgres sample dbs in a standardized format.
 
+<!--
+## Usage
+ -->
+
 ## Directory structure
 
 Each checked-in sample db in the ./sample_dbs directory
