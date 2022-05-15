@@ -151,6 +151,11 @@ sportsdb-dump: ./tmp/sportsdb.schema.dump.sql.gz
 	@./scripts/start_local_db.sh
 	@./scripts/dump.sh sportsdb
 
+omnibus-dump: ./tmp/omnibus.schema.dump.sql.gz
+./tmp/omnibus.schema.dump.sql.gz: ./sample_dbs/omnibus/sql/*.ddl.sql
+	@./scripts/start_local_db.sh
+	@./scripts/dump.sh omnibus --schema-only
+
 ALL_SH_FILES=$(shell find -type f -name '*.sh')
 lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
@@ -173,6 +178,7 @@ all-dumps: \
 	clubdata-dump \
 	covid-dump \
 	northwind-dump \
+	omnibus-dump \
 	polls-dump \
 	retail-analytics-dump \
 	sakila-dump \
@@ -193,6 +199,8 @@ all-dumps: \
 	./tmp/sportsdb.schema.dump.sql.gz \
 	./scripts/archive_all_dumps.sh
 	@./scripts/archive_all_dumps.sh
+
+
 
 .PHONY: psql
 ### get access to a psql shell

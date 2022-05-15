@@ -15,3 +15,13 @@ services:
       retries: 10
     volumes:
       - ./:/workspace # should only be used for read-only operations
+      - example_tablespace:/data/example_tablespace
+      - indices_tablespace:/data/indices_tablespace
+volumes:
+  example_tablespace:  &local_driver_opts
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: 'size=10m,uid=70' # 70 is the postgres uid
+  indices_tablespace: *local_driver_opts
