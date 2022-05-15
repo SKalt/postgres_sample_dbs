@@ -94,7 +94,7 @@ lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
 
 .PHONY: yugabyte-download azure-download sakila-download
-
+all-dbs: airflow chinook clubdata covid northwind polls retail_analytics sakila sportsdb
 .PHONY: psql
 ### get access to a psql shell
 psql:

@@ -18,8 +18,7 @@ main() {
     esac
   done
   log_info "preparing directory"
-  mkdir -p "$target_dir/ddl"
-  mkdir -p "$target_dir/dml" # unused
+  mkdir -p "$target_dir/sql"
 
   log_info "copying license"
   cp -f "$source_dir"/LICENSE* "$target_dir/"
@@ -59,12 +58,12 @@ main() {
   log_info "dumping schema"
   {
     docker_compose exec pg sh -c 'pg_dump -h localhost --schema-only'
-  } >"$target_dir/ddl/00_schema.sql"
+  } >"$target_dir/sql/00_schema.ddl.sql"
 
   log_info "dumping data"
   {
     docker_compose exec pg sh -c 'pg_dump -h localhost --column-inserts --data-only'
-  } | gzip -9 >"$target_dir/dml/01_data.sql.gz"
+  } | gzip -9 >"$target_dir/sql/01_data.dml.sql.gz"
 
   log_info "done"
   touch -m "$target_dir/README.md" # update mtime to let `make` know that the process finished.

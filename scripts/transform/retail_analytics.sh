@@ -17,8 +17,7 @@ main() {
   done
 
   log_info "preparing directory"
-  mkdir -p "$target_dir/ddl"
-  mkdir -p "$target_dir/dml"
+  mkdir -p "$target_dir/sql"
 
   log_info "copying license"
   cp -f "$source_dir/licenses/APACHE-LICENSE-2.0.txt" "$target_dir/LICENSE.txt"
@@ -30,13 +29,13 @@ main() {
   } >"$target_dir/README.md"
 
   log_info "copying ddl"
-  cp -f "$source_dir/sample/schema.sql" "$target_dir/ddl/00_schema.sql"
+  cp -f "$source_dir/sample/schema.sql" "$target_dir/sql/00_schema.ddl.sql"
 
   log_info "copying dml"
-  cp -f "$source_dir/sample/products.sql" "$target_dir/dml/01_products.sql"
-  cp -f "$source_dir/sample/users.sql" "$target_dir/dml/02_users.sql"
-  cp -f "$source_dir/sample/orders.sql" "$target_dir/dml/03_orders.sql"
-  cp -f "$source_dir/sample/reviews.sql" "$target_dir/dml/04_reviews.sql"
+  cp -f "$source_dir/sample/products.sql" "$target_dir/sql/01_products.dml.sql"
+  cp -f "$source_dir/sample/users.sql" "$target_dir/sql/02_users.dml.sql"
+  cp -f "$source_dir/sample/orders.sql" "$target_dir/sql/03_orders.dml.sql"
+  cp -f "$source_dir/sample/reviews.sql" "$target_dir/sql/04_reviews.dml.sql"
 
   log_info "done"
   du -hs "$target_dir"/* | log_debug

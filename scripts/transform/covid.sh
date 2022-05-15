@@ -18,8 +18,7 @@ main() {
   done
 
   log_info "preparing directories"
-  mkdir -p "$target_dir/ddl"
-  mkdir -p "$target_dir/dml"
+  mkdir -p "$target_dir/sql"
   # mkdir -p "$target_dir/workload"
   # TODO: extract workload
 
@@ -41,7 +40,7 @@ main() {
 
   log_info "preparing live database"
   {
-    docker_compose down
+    docker_compose down -v
     docker_compose up -d pg
   } 2>&1 | log_debug
   while ! docker_compose exec pg pg_isready &>/dev/null; do
@@ -55,12 +54,9 @@ main() {
       psql --set=CHECK_FUNCTION_BODIES=off -f ./0.sql # --set=ON_ERROR_STOP=on
       '
   } | log_debug
-  # cp -f "$source_dir/sample/clubdata_ddl.sql" "$target_dir/ddl/00_schema.sql"
 
-  docker_compose exec pg pg_dump --schema-only >"$target_dir/ddl/00_schema.sql"
-  docker_compose exec pg pg_dump --data-only --column-inserts >"$target_dir/dml/01_data.sql"
-  # log_info "copying dml"
-  # cp -f "$source_dir/sample/clubdata_data.sql" "$target_dir/dml/01_data.sql"
+  docker_compose exec pg pg_dump --schema-only >"$target_dir/sql/00_schema.ddl.sql"
+  docker_compose exec pg pg_dump --data-only --column-inserts >"$target_dir/sql/01_data.dml.sql"
 
   log_info "done"
   du -hs "$target_dir"/* | log_debug

@@ -16,13 +16,13 @@ main() {
     esac
   done
   log_info "preparing directory"
-  mkdir -p "$target_dir/ddl"
+  mkdir -p "$target_dir/sql"
 
   log_info "copying license"
   cp -f "$source_dir/licenses/APACHE-LICENSE-2.0.txt" "$target_dir/LICENSE.txt"
 
   log_info "copying schema"
-  cp -f "$source_dir/sample/airflowybrepo.sql" "$target_dir/ddl/00_schema.sql"
+  cp -f "$source_dir/sample/airflowybrepo.sql" "$target_dir/sql/00_schema.ddl.sql"
 
   log_info "done"
   du -h "$target_dir"/* | log_debug

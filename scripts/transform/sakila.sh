@@ -3,7 +3,7 @@
 
 this_dir="${BASH_SOURCE[0]%/*}"
 log_file=/tmp/salila_transform.log
-# shellckeck source=../common.sh
+# shellcheck source=../common.sh
 . "$this_dir/../common.sh"
 
 source_dir="$repo_root/tmp/sakila"
@@ -21,8 +21,7 @@ main() {
   done
   log_info "starting sakila transform ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   log_info "preparing ${target_dir//$repo_root/.}/{ddl,data}/"
-  mkdir -p "$target_dir/ddl"
-  mkdir -p "$target_dir/dml"
+  mkdir -p "$target_dir/sql"
 
   log_info "copying license"
   cp -f "$source_dir"/LICENSE* "$target_dir/"
@@ -31,13 +30,13 @@ main() {
   cp -f "$source_dir/README.md" "$target_dir"
 
   log_info "copying ddl"
-  cp -f "$source_ddl" "$target_dir/ddl/00_schema.sql"
+  cp -f "$source_ddl" "$target_dir/sql/00_schema.ddl.sql"
 
   # due to circular foreign key constraints, we can't use pg_dump --data-only
   # to restore the table data. Using the pre-existing INSERTs is the reliable
   # way to get data into this database, but it takes ~1 minute to execute.
   log_info "copying data"
-  cp -f "$source_data" "$target_dir/dml/01_data.sql"
+  cp -f "$source_data" "$target_dir/sql/01_data.dml.sql"
   ## here's how to create a dump of the database:
   # log_info "preparing live database"
   # docker_compose up -d pg

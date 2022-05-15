@@ -17,8 +17,7 @@ main() {
   done
 
   log_info "preparing directory"
-  mkdir -p "$target_dir/ddl"
-  mkdir -p "$target_dir/dml"
+  mkdir -p "$target_dir/sql"
 
   log_info "copying license"
   cp -f "$source_dir/licenses/APACHE-LICENSE-2.0.txt" "$target_dir/LICENSE.txt"
@@ -30,10 +29,10 @@ main() {
   } >"$target_dir/README.md"
 
   log_info "copying ddl"
-  cp -f "$source_dir/sample/northwind_ddl.sql" "$target_dir/ddl/00_schema.sql"
+  cp -f "$source_dir/sample/northwind_ddl.sql" "$target_dir/sql/00_schema.ddl.sql"
 
   log_info "copying dml"
-  cp -f "$source_dir/sample/northwind_data.sql" "$target_dir/dml/01_data.sql"
+  cp -f "$source_dir/sample/northwind_data.sql" "$target_dir/sql/01_data.dml.sql"
 
   log_info "done"
   du -hs "$target_dir"/* | log_debug

@@ -7,8 +7,10 @@ this_dir="${BASH_SOURCE[0]%/*}"
 
 source_dir="$repo_root/tmp/azure-postgresql-samples-databases"
 target_dir="$repo_root/sample_dbs/polls"
-ddl_dir="$target_dir/ddl"
-
+ddl_dir="$target_dir/sql"
+sort_by_basename() {
+  cat - | awk -F/
+}
 main() {
   set -euo pipefail
   while [ -n "${1:-}" ]; do
@@ -18,8 +20,7 @@ main() {
     esac
   done
   log_info "preparing directory"
-  mkdir -p "$target_dir/ddl"
-  # mkdir -p "$target_dir/dml" # unused
+  mkdir -p "$ddl_dir"
 
   log_info "copying license"
   cp -f "$source_dir"/LICENSE* "$target_dir/"
@@ -28,7 +29,7 @@ main() {
   cp -f "$source_dir/polls-database-schema/readme.md" "$target_dir/README.md"
 
   log_info "copying ddl"
-  cp -f "$source_dir/polls-database-schema/polls-schema.sql" "$ddl_dir/"
+  cp -f "$source_dir/polls-database-schema/polls-schema.sql" "$ddl_dir/00_schema.ddl.sql"
 
   log_info "done"
 }
