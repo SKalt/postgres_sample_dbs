@@ -94,3 +94,11 @@ lint: $(ALL_SH_FILES)
 	shellcheck --source-path=SCRIPTDIR $(ALL_SH_FILES)
 
 .PHONY: yugabyte-download azure-download sakila-download
+
+.PHONY: psql
+### get access to a psql shell
+psql:
+	docker-compose up -d pg
+	while ! docker-compose exec pg pg_isready -h localhost; do sleep .5; done
+	docker-compose exec pg psql
+	docker-compose down -v
