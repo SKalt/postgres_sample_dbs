@@ -1,0 +1,45 @@
+name: Scrape azure postgres samples
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "39 20 18 * *" # once a month, at a jittered time
+  push:
+    branches:
+      - master
+    paths:
+      - Makefile
+      - scripts/common.sh
+      - scripts/download/azure.sh
+      - scripts/transform/polls.sh
+      - scripts/transform/adventureworks.sh
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: download azure git repo
+        run: make azure-download
+      - name: commit polls-db changes, if any
+        run: |-
+          make polls
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(db/polls): update $(date '+%Y-%m-%d')" || exit 0
+          git push
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: "./README.md"
+          key: "azure-postgres-{{ hashFiles('./tmp/**/AdventureWorksPG.gz') }}"
+      - name: update adventureworks
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |-
+          echo "start"
+          docker-compose up -d pg
+          make adventureworks
+          git add -A
+          git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
+          git push
