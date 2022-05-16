@@ -1,0 +1,30 @@
+name: Sakila scraper
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "55 2 6 * *" # once a month, at a jittered time
+  push:
+    branches:
+      - master
+    paths:
+      - Makefile
+      - scripts/common.sh
+      - scripts/download/sakila.sh
+      - scripts/transform/sakila.sh
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: update sakila git repo
+        run: make sakila-download
+      - name: commit changes, if any
+        run: |-
+          make sakila
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(db/sakila): update $(date '+%Y-%m')" || exit 0
+          git push
