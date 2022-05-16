@@ -29,14 +29,15 @@ main() {
   } >"$target_dir/README.md"
 
   log_info "copying ddl"
-  cp -f "$source_dir/sample/sportsdb_tables.sql" "$target_dir/sql/00_tables.ddl.sql"
-  cp -f "$source_dir/sample/sportsdb_constraints.sql" "$target_dir/sql/02_constraints.ddl.sql"
-  cp -f "$source_dir/sample/sportsdb_fks.sql" "$target_dir/sql/03_fks.ddl.sql"
-  cp -f "$source_dir/sample/sportsdb_indexes.sql" "$target_dir/sql/04_indices.ddl.sql"
+  prefix="$source_dir/sample/sportsdb"
+  cp -f "${prefix}_tables.sql" "$target_dir/sql/00_tables.ddl.sql"
+  cp -f "${prefix}_constraints.sql" "$target_dir/sql/02_constraints.ddl.sql"
+  cp -f "${prefix}_fks.sql" "$target_dir/sql/03_fks.ddl.sql"
+  cp -f "${prefix}_indexes.sql" "$target_dir/sql/04_indices.ddl.sql"
 
   log_info "copying dml"
   # inserts need to happen before constraints are applied
-  cp -f "$source_dir/sample/clubdata_data.sql" "$target_dir/sql/01_data.dml.sql"
+  gzip -9 <"${prefix}_inserts.sql" >"$target_dir/sql/01_data.dml.sql.gz"
 
   log_info "done"
   du -hs "$target_dir"/* | log_debug
