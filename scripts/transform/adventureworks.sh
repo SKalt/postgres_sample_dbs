@@ -63,7 +63,7 @@ main() {
   log_info "dumping data"
   {
     docker_compose exec pg sh -c 'pg_dump -h localhost --column-inserts --data-only'
-  } | gzip -9 >"$target_dir/sql/01_data.dml.sql.gz"
+  } | gzip -n -9 >"$target_dir/sql/01_data.dml.sql.gz"
 
   log_info "done"
   touch -m "$target_dir/README.md" # update mtime to let `make` know that the process finished.

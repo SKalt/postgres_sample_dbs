@@ -114,9 +114,9 @@ main() {
     log_info "would dump to $schema_dump_location"
   else
     log_info "dumping to $full_dump_location"
-    pg_dump | gzip -9 >"$full_dump_location"
+    pg_dump | gzip -n -9 >"$full_dump_location"
     log_info "dump to $schema_dump_location"
-    pg_dump --schema-only | gzip -9 >"$schema_dump_location"
+    pg_dump --schema-only | gzip -n -9 >"$schema_dump_location"
   fi
 }
 

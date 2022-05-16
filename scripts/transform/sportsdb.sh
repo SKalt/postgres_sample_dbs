@@ -37,7 +37,7 @@ main() {
 
   log_info "copying dml"
   # inserts need to happen before constraints are applied
-  gzip -9 <"${prefix}_inserts.sql" >"$target_dir/sql/01_data.dml.sql.gz"
+  gzip -n -9 <"${prefix}_inserts.sql" >"$target_dir/sql/01_data.dml.sql.gz"
 
   log_info "done"
   du -hs "$target_dir"/* | log_debug
