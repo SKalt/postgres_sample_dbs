@@ -29,17 +29,17 @@ jobs:
           git add -A
           git commit -m "chore(db/polls): update $(date '+%Y-%m-%d')" || exit 0
           git push
-      - uses: actions/cache@v3
-        id: cache
-        with:
-          path: "./README.md"
-          key: "azure-postgres-{{ hashFiles('./tmp/**/AdventureWorksPG.gz') }}"
-      - name: update adventureworks
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |-
-          echo "start"
-          docker-compose up -d pg
-          make adventureworks
-          git add -A
-          git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
-          git push
+      # - uses: actions/cache@v3
+      #   id: cache
+      #   with:
+      #     path: "./README.md"
+      #     key: "azure-postgres-{{ hashFiles('./tmp/**/AdventureWorksPG.gz') }}"
+      # - name: update adventureworks
+      #   if: steps.cache.outputs.cache-hit != 'true'
+      #   run: |-
+      #     echo "start"
+      #     docker-compose up -d pg
+      #     make adventureworks
+      #     git add -A
+      #     git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
+      #     git push

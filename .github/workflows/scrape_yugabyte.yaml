@@ -1,0 +1,92 @@
+name: Scrape yugabyte-db samples
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "35 15 4 * *" # once a month, at a jittered time
+  push:
+    branches:
+      - master
+    paths:
+      - Makefile
+      - scripts/common.sh
+      - scripts/download/airflow.sh
+      - scripts/transform/chinook.sh
+      - scripts/transform/clubdata.sh
+      - scripts/transform/northwind.sh
+      - scripts/transform/retail_analytics.sh
+      - scripts/transform/sportsdb.sh
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: download yugabyte-db git repo
+        run: depth=1 make yugabyte-download
+
+      - name: extract any changes to the chinook sample db
+        run: make chinook
+      - name: commit airflow changes, if any
+        run: |-
+          git --no-pager diff --stat
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(db/airflow): update $(date '+%Y-%m-%d')" || exit 0
+          git push
+
+      - name: extract any changes to the chinook sample db
+        run: make chinook
+      - name: commit chinook changes, if any
+        run: |-
+          git --no-pager diff --stat
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(db/chinook): update $(date '+%Y-%m-%d')" || exit 0
+          git push
+
+      - name: extract any changes to the clubdata sample db
+        run: make clubdata
+      - name: commit clubdata changes, if any
+        run: |-
+          git --no-pager diff --stat
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(db/clubdata): update $(date '+%Y-%m-%d')" || exit 0
+          git push
+
+      - name: extract any changes to the northwind sample db
+        run: make northwind
+      - name: commit northwind changes, if any
+        run: |-
+          git --no-pager diff --stat
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(db/northwind): update $(date '+%Y-%m-%d')" || exit 0
+          git push
+
+      - name: extract any changes to the retail_analytics sample db
+        run: make retail_analytics
+      - name: commit retail_analytics changes, if any
+        run: |-
+          git --no-pager diff --stat
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(db/retail): update $(date '+%Y-%m-%d')" || exit 0
+          git push
+
+      - name: extract any changes to the sportsdb sample db
+        run: make sportsdb
+      - name: commit sportsdb changes, if any
+        run: |-
+          git --no-pager diff --stat
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(db/sportsdb): update $(date '+%Y-%m-%d')" || exit 0
+          git push
