@@ -64,7 +64,7 @@ shallow_clone() {
   cd "$path" || exit 1
   {
     git init
-    git remote set-url origin "$git_url"
+    git remote set-url origin "$git_url" || git remote add origin "$git_url"
     git config core.sparseCheckout true
     git sparse-checkout init
   } 2>&1 | log_debug

@@ -22,8 +22,8 @@ main() {
     log_info "pulling $remote"
     (cd "$target_dir" && git pull origin main) 2>&1 | log_debug
   else
-    log_info "cloning $remote"
-    git clone "$remote" "$target_dir" 2>&1 | log_debug
+    log_info "shallow-cloning $remote"
+    depth=100 shallow_clone "$remote" "$target_dir" "main" "postgres-sakila-db" "LICENSE" "README.md"
   fi
 }
 
