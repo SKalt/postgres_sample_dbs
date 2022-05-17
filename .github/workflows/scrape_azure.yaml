@@ -49,9 +49,13 @@ jobs:
           key: "azure-postgres-{{ hashFiles('./tmp/**/AdventureWorksPG.gz') }}"
       - name: update adventureworks
         if: steps.cache.outputs.cache-hit != 'true'
+        # from https://www.postgresql.org/download/linux/ubuntu/
         run: |-
-          sudo apt update && sudo apt install -y postgresql-client
-          PGUSER=postgres PGHOST=localhost ./scripts/transform/adventureworks.sh
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+          sudo apt-get update
+          sudo apt-get -y install postgresql-client
+          PGUSER=postgres PGHOST=postgres ./scripts/transform/adventureworks.sh
           git add -A -- sample_dbs
           git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
           git push
