@@ -10,7 +10,7 @@ log_info "starting fresh database"
   docker_compose up -d pg
 } 2>&1 | log_debug
 
-n=30
+n=10
 while ! docker_compose exec pg pg_isready &>/dev/null; do
   sleep .5
   n=$((n - 1))

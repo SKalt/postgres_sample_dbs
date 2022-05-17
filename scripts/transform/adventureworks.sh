@@ -23,11 +23,13 @@ main() {
   log_info "copying license"
   cp -f "$source_dir"/LICENSE* "$target_dir/"
 
-  # log_info "copying README"
-  # cp -f "$source_dir/postgresql-adventureworks/readme.md" "$target_dir/README.md"
-
-  # log_info "copying ddl"
-  # cp -f "$source_dir/polls-database-schema/polls-schema.sql" "$ddl_dir/"
+  log_info "waiting for live database"
+  n=30
+  while ! docker_compose exec pg pg_isready &>/dev/null; do
+    sleep .5
+    n=$((n - 1))
+    if test "$n" -lt 1; then fail "timeout: $(pg_isready 2>&1)"; fi
+  done
 
   {
     psql -c "create user timchapman" || true
