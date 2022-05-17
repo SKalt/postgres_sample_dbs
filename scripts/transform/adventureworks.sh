@@ -25,7 +25,7 @@ main() {
 
   log_info "waiting for live database"
   n=30
-  while ! docker_compose exec pg pg_isready &>/dev/null; do
+  while ! pg_isready &>/dev/null; do
     sleep .5
     n=$((n - 1))
     if test "$n" -lt 1; then fail "timeout: $(pg_isready 2>&1)"; fi

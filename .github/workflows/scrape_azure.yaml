@@ -20,7 +20,8 @@ jobs:
         image: postgres:14-alpine
         # Provide the password for postgres
         env:
-          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_PASSWORD: password
+
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -50,12 +51,17 @@ jobs:
       - name: update adventureworks
         if: steps.cache.outputs.cache-hit != 'true'
         # from https://www.postgresql.org/download/linux/ubuntu/
+        env:
+          PGUSER: postgres
+          PGHOST: postgres
+          PGPORT: 5432
+          PGPASSWORD: password
         run: |-
           sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
           wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
           sudo apt-get update
           sudo apt-get -y install postgresql-client
-          PGUSER=postgres PGHOST=postgres ./scripts/transform/adventureworks.sh
+          ./scripts/transform/adventureworks.sh
           git add -A -- sample_dbs
           git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
           git push
