@@ -18,6 +18,8 @@ jobs:
     services:
       postgres:
         image: postgres:14-alpine
+        ports:
+          - 5432:5432
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: password
@@ -53,7 +55,7 @@ jobs:
         # from https://www.postgresql.org/download/linux/ubuntu/
         env:
           PGUSER: postgres
-          PGHOST: postgres
+          PGHOST: localhost
           PGPORT: 5432
           PGPASSWORD: password
         run: |-
@@ -61,7 +63,11 @@ jobs:
           wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
           sudo apt-get update
           sudo apt-get -y install postgresql-client
-          ./scripts/transform/adventureworks.sh
-          git add -A -- sample_dbs
-          git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
-          git push
+          echo "PGUSER=$PGUSER PGHOST=$PGHOST PGPORT=$PGPORT"
+          set -x
+          psql -c 'select 1'
+
+          # ./scripts/transform/adventureworks.sh
+          # git add -A -- sample_dbs
+          # git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
+          # git push
