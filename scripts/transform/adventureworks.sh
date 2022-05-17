@@ -29,40 +29,27 @@ main() {
   # log_info "copying ddl"
   # cp -f "$source_dir/polls-database-schema/polls-schema.sql" "$ddl_dir/"
 
-  log_info "preparing live database"
   {
-    docker_compose down
-    docker_compose up -d pg
-  } 2>&1 | log_debug
-  while ! docker_compose exec pg pg_isready &>/dev/null; do
-    sleep 1
-  done
-
-  {
-    docker_compose exec pg sh -c 'psql -c "create user timchapman"' || true
-    docker_compose exec pg sh -c 'psql -c "create user azuresu"' || true
-    docker_compose exec pg sh -c 'psql -c "create role azure_pg_admin"' || true
-    docker_compose exec pg sh -c 'psql -c "create database adventureworks with owner timchapman"' || true
+    psql -c "create user timchapman" || true
+    psql -c "create user azuresu" || true
+    psql -c "create role azure_pg_admin" || true
+    psql -c "create database adventureworks with owner timchapman" || true
   } | log_debug
 
   log_info "transform archive-format dump to script-format dump"
   {
-    docker_compose exec pg sh -c "pg_restore -U timchapman -h localhost  -f - /workspace/$repo_relative_source/postgresql-adventureworks/AdventureWorksPG.gz"
+    pg_restore -U timchapman -h localhost -f - "$source_dir"/postgresql-adventureworks/AdventureWorksPG.gz
   } >"$repo_root/tmp/adventureworks.dump.sql"
 
   log_info "run script-format dump, ignoring errors"
-  {
-    docker_compose exec pg sh -c 'cat /workspace/tmp/adventureworks.dump.sql | psql'
-  } | log_debug
+  psql <"$repo_root/tmp/adventureworks.dump.sql" | log_debug
 
   log_info "dumping schema"
-  {
-    docker_compose exec pg sh -c 'pg_dump -h localhost --schema-only'
-  } >"$target_dir/sql/00_schema.ddl.sql"
+  pg_dump -h localhost --schema-only >"$target_dir/sql/00_schema.ddl.sql"
 
   log_info "dumping data"
   {
-    docker_compose exec pg sh -c 'pg_dump -h localhost --column-inserts --data-only'
+    pg_dump -h localhost --column-inserts --data-only
   } | gzip -n -9 >"$target_dir/sql/01_data.dml.sql.gz"
 
   log_info "done"

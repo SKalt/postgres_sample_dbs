@@ -15,6 +15,18 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        # Provide the password for postgres
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
@@ -29,17 +41,17 @@ jobs:
           git add -A
           git commit -m "chore(db/polls): update $(date '+%Y-%m-%d')" || exit 0
           git push
-      # - uses: actions/cache@v3
-      #   id: cache
-      #   with:
-      #     path: "./README.md"
-      #     key: "azure-postgres-{{ hashFiles('./tmp/**/AdventureWorksPG.gz') }}"
-      # - name: update adventureworks
-      #   if: steps.cache.outputs.cache-hit != 'true'
-      #   run: |-
-      #     echo "start"
-      #     docker-compose up -d pg
-      #     make adventureworks
-      #     git add -A
-      #     git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
-      #     git push
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: "./README.md"
+          key: "azure-postgres-{{ hashFiles('./tmp/**/AdventureWorksPG.gz') }}"
+      - name: update adventureworks
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |-
+          sudo apt update && sudo apt install -y postgresql-client
+          PGUSER=postgres PGHOST=localhost ./scripts/transform/adventureworks.sh
+          git add -A -- sample_dbs
+          git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
+          git push

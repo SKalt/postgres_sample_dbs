@@ -16,7 +16,8 @@ adventureworks: ./sample_dbs/adventureworks/README.md
 	./tmp/azure-postgresql-samples-databases/postgresql-adventureworks/README.md \
 	./scripts/common.sh \
 	./scripts/transform/adventureworks.sh
-	@./scripts/transform/adventureworks.sh
+	@./scripts/start_local_db.sh
+	@PGHOST=localhost PGUSER=postgres ./scripts/transform/adventureworks.sh
 
 sakila-download: ./tmp/sakila/README.md
 ./tmp/sakila/README.md: \
