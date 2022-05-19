@@ -64,10 +64,8 @@ jobs:
           sudo apt-get update
           sudo apt-get -y install postgresql-client
           echo "PGUSER=$PGUSER PGHOST=$PGHOST PGPORT=$PGPORT"
-          set -x
-          psql -c 'select 1'
 
-          # ./scripts/transform/adventureworks.sh
-          # git add -A -- sample_dbs
-          # git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
-          # git push
+          ./scripts/transform/adventureworks.sh
+          git add -A -- sample_dbs
+          git commit -m "chore(db/adventureworks): update $(date '+%Y-%m-%d')" || exit 0
+          git push
