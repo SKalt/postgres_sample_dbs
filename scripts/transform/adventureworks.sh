@@ -41,13 +41,14 @@ main() {
   log_info "transform archive-format dump to script-format dump"
   {
     pg_restore -U timchapman -h localhost -f - "$source_dir"/postgresql-adventureworks/AdventureWorksPG.gz
-  } >"$repo_root/tmp/adventureworks.dump.sql"
+  } | gzip -n -9 >"$repo_root/tmp/adventureworks.full.dump.sql.gz"
 
   log_info "run script-format dump, ignoring errors"
   psql <"$repo_root/tmp/adventureworks.dump.sql" | log_debug
 
   log_info "dumping schema"
   pg_dump -h localhost --schema-only >"$target_dir/sql/00_schema.ddl.sql"
+  gzip -n -9 <"$target_dir/sql/00_schema.ddl.sql" >"$repo_root/tmp/adventureworks.schema.dump.sql.gz"
 
   log_info "dumping data"
   {

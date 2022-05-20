@@ -109,13 +109,17 @@ main() {
 
   schema_dump_location="$repo_root/tmp/$NAME.schema.dump.sql.gz"
   full_dump_location="$repo_root/tmp/$NAME.full.dump.sql.gz"
-  if test "$dry_run" = "true"; then
-    log_info "would dump to $full_dump_location"
+  if [ "$dry_run" = "true" ]; then
+    if ! [ "$schema_only" = "true" ]; then
+      log_info "would dump to $full_dump_location"
+    fi
     log_info "would dump to $schema_dump_location"
   else
-    log_info "dumping to $full_dump_location"
-    pg_dump | gzip -n -9 >"$full_dump_location"
-    log_info "dump to $schema_dump_location"
+    if ! [ "$schema_only" = "true" ]; then
+      log_info "dumping to $full_dump_location"
+      pg_dump | gzip -n -9 >"$full_dump_location"
+    fi
+    log_info "dumping to $schema_dump_location"
     pg_dump --schema-only | gzip -n -9 >"$schema_dump_location"
   fi
 }
