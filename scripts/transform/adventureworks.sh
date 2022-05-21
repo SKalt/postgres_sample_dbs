@@ -39,16 +39,19 @@ main() {
   } | log_debug
 
   log_info "transform archive-format dump to script-format dump"
+  full_dump="$repo_root/tmp/adventureworks.full.dump.sql.gz"
   {
     pg_restore -U timchapman -h localhost -f - "$source_dir"/postgresql-adventureworks/AdventureWorksPG.gz
-  } | gzip -n -9 >"$repo_root/tmp/adventureworks.full.dump.sql.gz"
+  } | gzip -n -9 >"$full_dump"
 
   log_info "run script-format dump, ignoring errors"
-  psql <"$repo_root/tmp/adventureworks.dump.sql" | log_debug
+  gunzip -c "$full_dump" | psql | log_debug
 
   log_info "dumping schema"
-  pg_dump -h localhost --schema-only >"$target_dir/sql/00_schema.ddl.sql"
-  gzip -n -9 <"$target_dir/sql/00_schema.ddl.sql" >"$repo_root/tmp/adventureworks.schema.dump.sql.gz"
+  pg_dump -h localhost --schema-only |
+    tee "$target_dir/sql/00_schema.ddl.sql" |
+    cat "$target_dir"/LICENSE* - |
+    gzip -n -9 >"$repo_root/tmp/adventureworks.schema.dump.sql.gz"
 
   log_info "dumping data"
   {

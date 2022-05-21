@@ -176,6 +176,22 @@ all-dumps: \
 	sakila-dump \
 	sportsdb-dump \
 
+.PHONY: release
+
+./tmp/all_schema_dumps.tar.gz: \
+	./tmp/adventureworks.schema.dump.sql.gz \
+	./tmp/airflow.schema.dump.sql.gz \
+	./tmp/chinook.schema.dump.sql.gz \
+	./tmp/clubdata.schema.dump.sql.gz \
+	./tmp/covid.schema.dump.sql \
+	./tmp/northwind.schema.dump.sql.gz \
+	./tmp/polls.schema.dump.sql.gz \
+	./tmp/retail_analytics.schema.dump.sql.gz \
+	./tmp/sakila.schema.dump.sql.gz \
+	./tmp/sportsdb.schema.dump.sql.gz \
+	./scripts/archive_all_dumps.sh
+	@./scripts/archive_all_dumps.sh
+
 .PHONY: psql
 ### get access to a psql shell
 psql:
