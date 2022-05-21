@@ -115,12 +115,21 @@ main() {
     fi
     log_info "would dump to $schema_dump_location"
   else
-    if ! [ "$schema_only" = "true" ]; then
-      log_info "dumping to $full_dump_location"
-      pg_dump | gzip -n -9 >"$full_dump_location"
+    pg_dump_args=""
+    pg_dump_target=""
+    if [ "$schema_only" = "true" ]; then
+      log_info "dumping schema to $schema_dump_location"
+      pg_dump_args="--schema-only"
+      pg_dump_target="$schema_dump_location"
+    else
+      log_info "dumping schema + data to $schema_dump_location"
+      pg_dump_target="$full_dump_location"
     fi
-    log_info "dumping to $schema_dump_location"
-    pg_dump --schema-only | gzip -n -9 >"$schema_dump_location"
+    {
+      cat "$input_dir"/LICENSE* | sed 's/^/-- /g'
+      echo "---- END LICENSE ----"
+      pg_dump $pg_dump_args
+    } | gzip -n -9 >"$pg_dump_target"
   fi
 }
 
