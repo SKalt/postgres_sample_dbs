@@ -39,7 +39,7 @@ main() {
   } | log_debug
 
   log_info "transform archive-format dump to script-format dump"
-  full_dump="$repo_root/tmp/adventureworks.full.dump.sql.gz"
+  full_dump="$repo_root/tmp/adventureworks.schema_and_data.dump.sql.gz"
   {
     pg_restore -U timchapman -h localhost -f - "$source_dir"/postgresql-adventureworks/AdventureWorksPG.gz
   } | gzip -n -9 >"$full_dump"

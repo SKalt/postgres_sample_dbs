@@ -6,7 +6,7 @@ this_dir="${BASH_SOURCE[0]%/*}"
 . "$this_dir/common.sh"
 
 all_schema_dumps="all_schema_dumps.tar"
-all_full_dumps="all_full_dumps.tar"
+all_full_dumps="all_schema_and_data_dumps.tar"
 
 append_to_tar() {
   local archive_path="$1"
@@ -39,7 +39,7 @@ main() {
   for sample_db in "$repo_root"/sample_dbs/*; do
     sample_db="${sample_db##*/}"
     append_to_tar "$all_schema_dumps" "$sample_db.schema.dump.sql.gz"
-    append_to_tar "$all_full_dumps" "$sample_db.full.dump.sql.gz"
+    append_to_tar "$all_full_dumps" "$sample_db.schema_and_data.dump.sql.gz"
   done
   gzip -n -9 "$all_full_dumps"
   gzip -n -9 "$all_schema_dumps"

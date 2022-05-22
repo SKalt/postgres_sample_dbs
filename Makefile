@@ -183,7 +183,7 @@ all-dumps: \
 	./tmp/airflow.schema.dump.sql.gz \
 	./tmp/chinook.schema.dump.sql.gz \
 	./tmp/clubdata.schema.dump.sql.gz \
-	./tmp/covid.schema.dump.sql \
+	./tmp/covid.schema.dump.sql.gz \
 	./tmp/northwind.schema.dump.sql.gz \
 	./tmp/polls.schema.dump.sql.gz \
 	./tmp/retail_analytics.schema.dump.sql.gz \
