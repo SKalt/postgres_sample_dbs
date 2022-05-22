@@ -29,6 +29,8 @@ Note that files
 
 #### from releases (preferred)
 
+Download one of the `all_*_dumps.tar.gz`s from [the latest release](./releases/latest), unpack it, and pipe any of the database dumps directly into `psql`.
+
 ### restore
 
 <details open><summary>shell</summary>
