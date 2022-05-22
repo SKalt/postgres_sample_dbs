@@ -145,7 +145,7 @@ sportsdb: ./sample_dbs/sportsdb/README.md
 
 .PHONY: sportsdb-dump
 sportsdb-dump: ./tmp/sportsdb.schema.dump.sql.gz
-./tmp/sportsdb.dump.sql.gz: ./sample_dbs/sportsdb/README.md ./scripts/dump.sh
+./tmp/sportsdb.schema.dump.sql.gz: ./sample_dbs/sportsdb/README.md ./scripts/dump.sh
 	@./scripts/start_local_db.sh
 	@./scripts/dump.sh sportsdb
 
