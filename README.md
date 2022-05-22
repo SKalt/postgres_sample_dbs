@@ -5,8 +5,9 @@ A collection of postgres sample dbs in a standardized format.
 ## Licensing
 
 Each of the sample databases contains its own license file(s).
+Each database dump in the releases include the database's license in a comment at the start of the database dump.
 
-The code to extract, transform, and load the sample databases is licensed as MIT in ./LICENSE.md
+The code to extract, transform, and load the sample databases is licensed as MIT in [./LICENSE.md](./LICENSE.md)
 
 ## Directory structure
 
