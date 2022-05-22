@@ -603,66 +603,66 @@ SELECT pg_catalog.setval('public.xcom_id_seq', 1, false);
 
 
 
-CREATE INDEX dag_id_state ON public.dag_run USING lsm (dag_id, state);
+CREATE INDEX dag_id_state ON public.dag_run USING btree (dag_id, state);
 
 
-CREATE INDEX idx_fileloc_hash ON public.serialized_dag USING lsm (fileloc_hash);
-
-
-
-CREATE INDEX idx_job_state_heartbeat ON public.job USING lsm (state, latest_heartbeat);
-
-
-CREATE INDEX idx_log_dag ON public.log USING lsm (dag_id);
+CREATE INDEX idx_fileloc_hash ON public.serialized_dag USING btree (fileloc_hash);
 
 
 
-CREATE INDEX idx_root_dag_id ON public.dag USING lsm (root_dag_id);
+CREATE INDEX idx_job_state_heartbeat ON public.job USING btree (state, latest_heartbeat);
+
+
+CREATE INDEX idx_log_dag ON public.log USING btree (dag_id);
 
 
 
-
-CREATE INDEX idx_task_fail_dag_task_date ON public.task_fail USING lsm (dag_id, task_id, execution_date);
+CREATE INDEX idx_root_dag_id ON public.dag USING btree (root_dag_id);
 
 
 
 
-CREATE INDEX idx_task_reschedule_dag_task_date ON public.task_reschedule USING lsm (dag_id, task_id, execution_date);
-
-
-
-CREATE INDEX idx_xcom_dag_task_date ON public.xcom USING lsm (dag_id, task_id, execution_date);
-
-
-
-CREATE INDEX job_type_heart ON public.job USING lsm (job_type, latest_heartbeat);
+CREATE INDEX idx_task_fail_dag_task_date ON public.task_fail USING btree (dag_id, task_id, execution_date);
 
 
 
 
-CREATE INDEX sm_dag ON public.sla_miss USING lsm (dag_id);
+CREATE INDEX idx_task_reschedule_dag_task_date ON public.task_reschedule USING btree (dag_id, task_id, execution_date);
 
 
 
-CREATE INDEX ti_dag_date ON public.task_instance USING lsm (dag_id, execution_date);
-
-
-CREATE INDEX ti_dag_state ON public.task_instance USING lsm (dag_id, state);
+CREATE INDEX idx_xcom_dag_task_date ON public.xcom USING btree (dag_id, task_id, execution_date);
 
 
 
-CREATE INDEX ti_job_id ON public.task_instance USING lsm (job_id);
+CREATE INDEX job_type_heart ON public.job USING btree (job_type, latest_heartbeat);
 
 
 
-CREATE INDEX ti_pool ON public.task_instance USING lsm (pool, state, priority_weight);
 
-
-CREATE INDEX ti_state ON public.task_instance USING lsm (state);
+CREATE INDEX sm_dag ON public.sla_miss USING btree (dag_id);
 
 
 
-CREATE INDEX ti_state_lkp ON public.task_instance USING lsm (dag_id, task_id, execution_date, state);
+CREATE INDEX ti_dag_date ON public.task_instance USING btree (dag_id, execution_date);
+
+
+CREATE INDEX ti_dag_state ON public.task_instance USING btree (dag_id, state);
+
+
+
+CREATE INDEX ti_job_id ON public.task_instance USING btree (job_id);
+
+
+
+CREATE INDEX ti_pool ON public.task_instance USING btree (pool, state, priority_weight);
+
+
+CREATE INDEX ti_state ON public.task_instance USING btree (state);
+
+
+
+CREATE INDEX ti_state_lkp ON public.task_instance USING btree (dag_id, task_id, execution_date, state);
 
 
 ALTER TABLE ONLY public.chart
