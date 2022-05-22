@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ### U
 this_dir="${BASH_SOURCE[0]%/*}"
-log_file=/tmp/chinook_transform.log
+log_file=/tmp/covid_transform.log
 # shellcheck source=../common.sh
 . "$this_dir/../common.sh"
 source_dir="$repo_root/tmp/yugabyte-db"
@@ -17,6 +17,7 @@ main() {
     esac
   done
 
+  log_info "starting covid transform ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   log_info "preparing directories"
   mkdir -p "$target_dir/sql"
   # mkdir -p "$target_dir/workload"

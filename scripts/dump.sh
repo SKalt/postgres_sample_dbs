@@ -37,8 +37,8 @@ wait_for_postgres() {
 
 load_file() {
   case "$1" in
-  *.gz) gunzip -c "$1" | psql ;;
-  *.sql) psql -f "$1" ;;
+  *.gz) gunzip -c "$1" | psql --set=ON_ERROR_STOP=on ;;
+  *.sql) psql --set=ON_ERROR_STOP=on -f "$1" ;;
   *) fail "unexpected format: $1" ;;
   esac
 }

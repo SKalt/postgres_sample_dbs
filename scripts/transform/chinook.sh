@@ -16,7 +16,7 @@ main() {
     *) echo "unexpected argument: $1" >&2 && usage >&2 && exit 1 ;;
     esac
   done
-
+  log_info "starting chinook transform ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   log_info "preparing directory"
   mkdir -p "$target_dir/sql"
 

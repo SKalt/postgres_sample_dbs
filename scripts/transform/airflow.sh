@@ -15,6 +15,7 @@ main() {
     *) echo "unexpected argument: $1" >&2 && usage >&2 && exit 1 ;;
     esac
   done
+  log_info "starting airflow transform ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   log_info "preparing directory"
   mkdir -p "$target_dir/sql"
 
@@ -22,7 +23,8 @@ main() {
   cp -f "$source_dir/licenses/APACHE-LICENSE-2.0.txt" "$target_dir/LICENSE.txt"
 
   log_info "copying schema"
-  cp -f "$source_dir/sample/airflowybrepo.sql" "$target_dir/sql/00_schema.ddl.sql"
+  # repair lsm indices (which vanilla postgres lacks) to btree indices
+  sed 's/USING lsm/USING btree/ig' <"$source_dir/sample/airflowybrepo.sql" >"$target_dir/sql/00_schema.ddl.sql"
 
   log_info "done"
   du -h "$target_dir"/* | log_debug

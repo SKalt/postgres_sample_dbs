@@ -1,3 +1,5 @@
+all: ./tmp/all_schema_dumps.tar.gz
+
 azure-download: ./tmp/azure-postgresql-sample-databases/README.md
 ./tmp/azure-postgresql-sample-databases/README.md: \
 	./scripts/common.sh \

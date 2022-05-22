@@ -16,6 +16,7 @@ main() {
     esac
   done
 
+  log_info "starting sportsdb transform ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   log_info "preparing directory"
   mkdir -p "$target_dir/sql"
 
@@ -33,7 +34,7 @@ main() {
   cp -f "${prefix}_tables.sql" "$target_dir/sql/00_tables.ddl.sql"
   cp -f "${prefix}_constraints.sql" "$target_dir/sql/02_constraints.ddl.sql"
   cp -f "${prefix}_fks.sql" "$target_dir/sql/03_fks.ddl.sql"
-  cp -f "${prefix}_indexes.sql" "$target_dir/sql/04_indices.ddl.sql"
+  sed 's/USING lsm/USING btree/ig' <"${prefix}_indexes.sql" >"$target_dir/sql/04_indices.ddl.sql"
 
   log_info "copying dml"
   # inserts need to happen before constraints are applied

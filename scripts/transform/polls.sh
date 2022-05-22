@@ -2,6 +2,7 @@
 ### transform/polls.sh [-h|--help]
 
 this_dir="${BASH_SOURCE[0]%/*}"
+log_file=/tmp/polls_transform.log
 # shellcheck source=../common.sh
 . "$this_dir/../common.sh"
 
@@ -19,6 +20,7 @@ main() {
     *) echo "unexpected argument: $1" >&2 && usage >&2 && exit 1 ;;
     esac
   done
+  log_info "starting polls transform ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
   log_info "preparing directory"
   mkdir -p "$ddl_dir"
 

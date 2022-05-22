@@ -2,7 +2,7 @@
 ### transform/sakila.sh [-h|--help]
 
 this_dir="${BASH_SOURCE[0]%/*}"
-log_file=/tmp/salila_transform.log
+log_file=/tmp/sakila_transform.log
 # shellcheck source=../common.sh
 . "$this_dir/../common.sh"
 
