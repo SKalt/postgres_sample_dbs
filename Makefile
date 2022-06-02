@@ -29,7 +29,7 @@ adventureworks: ./sample_dbs/adventureworks/README.md
 
 .PHONY: adventureworks-dump
 adventureworks-dump: ./tmp/adventureworks.schema.dump.sql.gz
-./tmp/adventureworks.schema.dump.sql.gz: ./sample_dbs/adventureworks/README.md
+./tmp/adventureworks.schema.dump.sql.gz: ./sample_dbs/adventureworks/README.md ./scripts/dump.sh
 # ^ produced as a by-product of checking in the sample db
 
 sakila-download: ./tmp/sakila/README.md
@@ -66,7 +66,7 @@ airflow: ./sample_dbs/airflow/sql/00_schema.ddl.sql
 
 .PHONY: airflow-dump
 airflow-dump: ./tmp/airflow.schema.dump.sql.gz
-./tmp/airflow.schema.dump.sql.gz: ./sample_dbs/airflow/sql/00_schema.ddl.sql
+./tmp/airflow.schema.dump.sql.gz: ./sample_dbs/airflow/sql/00_schema.ddl.sql ./scripts/dump.sh
 	@./scripts/start_local_db.sh
 	@./scripts/dump.sh airflow --schema-only
 
@@ -79,7 +79,7 @@ chinook: ./sample_dbs/chinook/README.md
 
 .PHONY: chinook-dump
 chinook-dump: ./tmp/chinook.schema.dump.sql.gz
-./tmp/chinook.schema.dump.sql.gz: ./sample_dbs/chinook/README.md
+./tmp/chinook.schema.dump.sql.gz: ./sample_dbs/chinook/README.md ./scripts/dump.sh
 	@./scripts/start_local_db.sh
 	@./scripts/dump.sh chinook
 
@@ -92,7 +92,7 @@ clubdata: ./sample_dbs/clubdata/README.md
 
 .PHONY: clubdata-dump
 clubdata-dump: ./tmp/clubdata.schema.dump.sql.gz
-./tmp/clubdata.schema.dump.sql.gz: ./sample_dbs/clubdata/README.md
+./tmp/clubdata.schema.dump.sql.gz: ./sample_dbs/clubdata/README.md ./scripts/dump.sh
 	@./scripts/start_local_db.sh
 	@./scripts/dump.sh clubdata
 
@@ -152,7 +152,7 @@ sportsdb-dump: ./tmp/sportsdb.schema.dump.sql.gz
 	@./scripts/dump.sh sportsdb
 
 omnibus-dump: ./tmp/omnibus.schema.dump.sql.gz
-./tmp/omnibus.schema.dump.sql.gz: ./sample_dbs/omnibus/sql/*.ddl.sql
+./tmp/omnibus.schema.dump.sql.gz: ./sample_dbs/omnibus/sql/*.ddl.sql ./scripts/dump.sh
 	@./scripts/start_local_db.sh
 	@./scripts/dump.sh omnibus --schema-only
 
