@@ -200,7 +200,8 @@ all-dumps: \
 	./scripts/archive_all_dumps.sh
 	@./scripts/archive_all_dumps.sh
 
-
+clean:
+	rm ./tmp/*.gz ./tmp/*.log
 
 .PHONY: psql
 ### get access to a psql shell
