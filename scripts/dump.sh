@@ -120,14 +120,14 @@ main() {
       {
         cat "$input_dir"/LICENSE* | sed 's/^/-- /g'
         echo "---- END LICENSE ----"
-        pg_dump
+        pg_dumpall
       } | gzip -n -9 >"$full_dump_location"
     fi
     log_info "dumping schema to $schema_dump_location"
     {
       cat "$input_dir"/LICENSE* | sed 's/^/-- /g'
       echo "---- END LICENSE ----"
-      pg_dump --schema-only
+      pg_dumpall --schema-only
     } | gzip -n -9 >"$schema_dump_location"
   fi
 }
