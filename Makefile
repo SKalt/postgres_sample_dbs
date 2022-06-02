@@ -186,6 +186,7 @@ all-dumps: \
 
 .PHONY: release
 
+ensemble: ./tmp/all_schema_dumps.tar.gz
 ./tmp/all_schema_dumps.tar.gz: \
 	./tmp/adventureworks.schema.dump.sql.gz \
 	./tmp/airflow.schema.dump.sql.gz \

@@ -18,7 +18,7 @@ append_to_tar() {
     tar -rf "$archive_path" "$unzipped_file"            # creates the archive if it doesn't exist
     rm "$unzipped_file"                                 # save space
   else
-    log_info "no $gzipped_file; skipping"
+    echo "no $gzipped_file; skipping" | log_debug
   fi
 }
 
