@@ -30,7 +30,7 @@ Note that files
 
 #### from releases (preferred)
 
-Download one of the `all_*_dumps.tar.gz`s from [the latest release](./releases/latest), unpack it, and pipe any of the database dumps directly into `psql`.
+Download one of the `all_*_dumps.tar.gz`s from [the latest release](https://github.com/SKalt/postgres_sample_dbs/releases/latest), unpack it, and pipe any of the database dumps directly into `psql`.
 
 ### restore
 
