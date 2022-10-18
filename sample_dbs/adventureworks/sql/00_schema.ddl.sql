@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 14.5
--- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
+-- Dumped by pg_dump version 15.0 (Ubuntu 15.0-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -42,6 +42,15 @@ CREATE SCHEMA production;
 
 
 ALTER SCHEMA production OWNER TO timchapman;
+
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO postgres;
 
 --
 -- Name: purchasing; Type: SCHEMA; Schema: -; Owner: timchapman
@@ -5071,7 +5080,9 @@ ALTER TABLE ONLY sales.store
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
 
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 GRANT ALL ON SCHEMA public TO azure_pg_admin;
+GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 --
